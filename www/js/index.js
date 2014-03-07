@@ -83,10 +83,16 @@ function gotoProject(projectID, projectTitle) {
 				$("#ticketList" + i).empty();
 
 			var ticketArray = [];
+			var ticketCount = [0,0,0,0,0];
 			data.forEach(function (ticket) {
 				if (ticket.status != "closed")
+				{
 					ticketArray.push(ticket);
+					ticketCount[ticket.priority-1]++;
+					}
 			});
+			for(var i=1; i<=5; i++)
+				$("#" + i + "TicketCount").html(ticketCount[i-1]);
 			ticketArray.sort(sortByPriority);
 			var ticketPriority = -1;
 			var priorityColor = "";

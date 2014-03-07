@@ -14,9 +14,9 @@ function doThings() {
 	window.localStorage.setItem("username", $("#txtUsername").val());
 	window.localStorage.setItem("password", $("#txtPassword").val());
 
-	domain = window.localStorage.getItem("unfuddleDomain");
-	username = window.localStorage.getItem("username");
-	password = window.localStorage.getItem("password");
+	domain = $("#txtDomain").val();
+	username = $("#txtUsername").val();
+	password = $("#txtPassword").val();
 
 	$.ajax({
 		type : "GET",
