@@ -3,15 +3,15 @@
 	<head> 
 	<title>Unfuddle App</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.css" />
 	<script type="text/javascript" src="phonegap.js"></script>
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
 </head> 
 <body>
-	<div data-role="page"data-theme="a">
-		<div data-role="header" data-theme="a">
+	<div data-role="page"data-theme="b">
+		<div data-role="header" >
 			<h1>Unfuddle App</h1>
 		</div><!-- /header -->
 
@@ -27,7 +27,7 @@
 		</div><!-- /content -->
 	</div><!-- /page -->
 	
-	<div data-role="page" data-theme="a" id="projectsPage">
+	<div data-role="page" data-theme="b" id="projectsPage">
 		<div data-role="header">
 			<h1>Projects</h1>
 		</div>
@@ -39,13 +39,47 @@
 		</div>
 	</div><!-- /page -->
 	
-	<div data-role="page" data-theme="a" id="projectPage">
+	<div data-role="page" data-theme="b" id="projectPage">
 		<div data-role="header">
 			<h1 id="projectPageHeader"></h1>
 		</div>
 		
 		<div data-role="content">
-			<ul id="ticketList" data-role="listview" data-inset="true">
+			<div data-role="collapsibleset">
+				<div data-role="collapsible">
+					<h2>Highest</h2>
+					<ul id="ticketList5" data-role="listview"></ul>
+				</div>
+				<div data-role="collapsible">
+					<h2>High</h2>
+					<ul id="ticketList4" data-role="listview"></ul>
+				</div>
+				<div data-role="collapsible">
+					<h2>Normal</h2>
+					<ul id="ticketList3" data-role="listview"></ul>
+				</div>
+				<div data-role="collapsible">
+					<h2>Low</h2>
+					<ul id="ticketList2" data-role="listview"></ul>
+				</div>
+				<div data-role="collapsible">
+					<h2>Lowest</h2>
+					<ul id="ticketList1" data-role="listview"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="ticketPage" >
+		<div data-role="header">
+		<a data-rel="back">Back</a>
+			<h1 id="ticketPageHeader"></h1>
+		</div>
+		
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true">
+				<li id="ticketSummary" data-role="list-divider"></li>
+				<li id="ticketDescription" style="overflow: visible; white-space: normal;"></li>
 			</ul>
 		</div>
 	</div>
