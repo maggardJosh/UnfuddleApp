@@ -13,7 +13,30 @@ function onDeviceReady() {
 	$("#txtDomain").val(domain);
 	$("#txtUsername").val(username);
 	$("#txtPassword").val(password);
+	
+	if(domain && username && password)
+	{
+		login();
+	}
 }
+
+function logout() {
+	window.localStorage.setItem("unfuddleDomain", "");
+	window.localStorage.setItem("username", "");
+	window.localStorage.setItem("password", "");
+	
+	domain = "";
+	username= "";
+	password = "";
+	
+	$("#txtDomain").val(domain);
+	$("#txtUsername").val(username);
+	$("#txtPassword").val(password);
+	
+	$.mobile.changePage("#loginPage");
+	
+}
+
 function login() {
 	window.localStorage.setItem("unfuddleDomain", $("#txtDomain").val());
 	window.localStorage.setItem("username", $("#txtUsername").val());
