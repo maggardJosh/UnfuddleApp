@@ -1,9 +1,30 @@
 var isTicketNew = false;
 var currentTicket;
 
+var myTickets = "mine";
+var closedTickets = "open";
+$(document).on('slidestop', "#sliderMyTickets", function () {
+	if (myTickets != $(this).val())
+		sliderChanged();
+	myTickets = $(this).val();
+});
+$(document).on('slidestop', "#sliderClosedTickets", function () {
+	if (closedTickets != $(this).val()) {
+		sliderChanged();
+		closedTickets = $(this).val();
+	}
+});
 
-$(document).on('slidestop', "#sliderMyTickets", function ()  { updateTicketList(); forceTicketListBuild();  });
-$(document).on('slidestop', "#sliderClosedTickets", function ()  { updateTicketList(); forceTicketListBuild(); });
+function sliderChanged() {
+	
+	$(".ui-li-count").animate({
+		opacity : '0'
+	}, "fast", function() {  
+	updateTicketList();
+	forceTicketListBuild();
+	$(".ui-li-count").animate({ opacity: '1'}, "fast");
+	});
+}
 
 function loadTicket(ticketID) {
 	$.ajax({
@@ -45,12 +66,11 @@ function updateTicketList() {
 	var ticketArray = [];
 	var ticketCount = [0, 0, 0, 0, 0];
 	ticketDictionary.forEach(function (ticket) {
-	console.log(ticket);
-		if( ($("#sliderClosedTickets").val() == "closed" && ticket.status == "closed")
-		|| ($("#sliderClosedTickets").val() != "closed" && ticket.status != "closed") && 
-		( ($("#sliderMyTickets").val() == "mine" && ticket.assignee_id == assigneeID) 
-		|| ($("#sliderMyTickets").val() == "theirs" && ticket.assignee_id != assigneeID) ))
-		{
+		if ((($("#sliderClosedTickets").val() == "closed" && ticket.status == "closed")
+				 || ($("#sliderClosedTickets").val() != "closed" && ticket.status != "closed")) &&
+			(($("#sliderMyTickets").val() == "mine" && ticket.assignee_id == assigneeID)
+				 || ($("#sliderMyTickets").val() == "theirs" && ticket.assignee_id != assigneeID))) {
+
 			ticketArray.push(ticket);
 			ticketCount[ticket.priority - 1]++;
 		}
@@ -99,7 +119,7 @@ function editCurrentTicket() {
 
 function gotoCreateTicket(ticket) {
 	isTicketNew = (ticket === -1) ? true : false;
-	
+
 	$("#createTicketPageHeader").html(isTicketNew ? "Create Ticket" : "Edit Ticket");
 
 	if (isTicketNew)
@@ -166,80 +186,80 @@ function getTicketList(data) {
 		ticketDictionary[ticket.id] = ticket;
 	});
 
-		updateTicketList();
+	updateTicketList();
 
-		$.mobile.changePage("#ticketReportPage");
-	}
+	$.mobile.changePage("#ticketReportPage");
+}
 
-	function updateTicket() {
-		$.mobile.loading('show', {
-			theme : 'a',
-			text : 'Creating Ticket',
-			textVisible : true
-		});
-		var xmlString = "<ticket>";
-		xmlString += "<assignee-id>" + $("#drpTicketAssignee").val() + "</assignee-id>";
-		xmlString += "<summary>" + $("#createTicketSummary").val() + "</summary>";
-		xmlString += "<description>" + $("#txtTicketDescription").val() + "</description>";
-		xmlString += "<priority>" + $("#drpTicketPriority").val() + "</priority>";
-		xmlString += "</ticket>";
+function updateTicket() {
+	$.mobile.loading('show', {
+		theme : 'a',
+		text : 'Creating Ticket',
+		textVisible : true
+	});
+	var xmlString = "<ticket>";
+	xmlString += "<assignee-id>" + $("#drpTicketAssignee").val() + "</assignee-id>";
+	xmlString += "<summary>" + $("#createTicketSummary").val() + "</summary>";
+	xmlString += "<description>" + $("#txtTicketDescription").val() + "</description>";
+	xmlString += "<priority>" + $("#drpTicketPriority").val() + "</priority>";
+	xmlString += "</ticket>";
 
-		$.ajax({
-			type : "PUT",
-			url : "https://" + domain + ".unfuddle.com/api/v1/projects/" + globalProjectID + "/tickets/" + currentTicket.id + ".xml",
-			headers : {
-				"Authorization" : "Basic " + btoa(username + ':' + password),
-				"Accept" : "application/xml",
-				"Content-Type" : "application/xml"
-			},
-			data : xmlString,
-			timeout : 5000,
-			success : function (data) {},
-			complete : function () {
-				$.mobile.loading('hide');
-			},
-			error : function (e) {
-				if (!(e.readyState == 4 && e.status == 200))
-					showDialogue("Error", "Problem Updating Ticket<br/>" + e.responseText);
-				else {
-					loadTicket(currentTicket.id);
-					updateCurrentTicket(currentTicket.id);
-					updateTicketList();
-					history.back();
-				}
+	$.ajax({
+		type : "PUT",
+		url : "https://" + domain + ".unfuddle.com/api/v1/projects/" + globalProjectID + "/tickets/" + currentTicket.id + ".xml",
+		headers : {
+			"Authorization" : "Basic " + btoa(username + ':' + password),
+			"Accept" : "application/xml",
+			"Content-Type" : "application/xml"
+		},
+		data : xmlString,
+		timeout : 5000,
+		success : function (data) {},
+		complete : function () {
+			$.mobile.loading('hide');
+		},
+		error : function (e) {
+			if (!(e.readyState == 4 && e.status == 200))
+				showDialogue("Error", "Problem Updating Ticket<br/>" + e.responseText);
+			else {
+				loadTicket(currentTicket.id);
+				updateCurrentTicket(currentTicket.id);
+				updateTicketList();
+				history.back();
 			}
-		});
-	}
+		}
+	});
+}
 
-	function createTicket() {
-		$.mobile.loading('show', {
-			theme : 'a',
-			text : 'Creating Ticket',
-			textVisible : true
-		});
-		var xmlString = "<ticket>";
-		xmlString += "<assignee-id>" + $("#drpTicketAssignee").val() + "</assignee-id>";
-		xmlString += "<summary>" + $("#createTicketSummary").val() + "</summary>";
-		xmlString += "<description>" + $("#txtTicketDescription").val() + "</description>";
-		xmlString += "<priority>" + $("#drpTicketPriority").val() + "</priority>";
-		xmlString += "</ticket>";
-		$.ajax({
-			type : "POST",
-			url : "https://" + domain + ".unfuddle.com/api/v1/projects/" + globalProjectID + "/tickets.json",
-			headers : {
-				"Authorization" : "Basic " + btoa(username + ':' + password),
-				"Accept" : "application/json",
-				"Content-Type" : "application/xml"
-			},
-			contentType : "text/xml",
-			data : xmlString,
-			timeout : 5000,
-			success : function (data) {},
-			complete : function () {
-				$.mobile.loading('hide');
-			},
-			error : function (e) {
-				showDialogue("Error", "Problem Creating Ticket<br/>" + e.responseText);
-			}
-		});
-	}
+function createTicket() {
+	$.mobile.loading('show', {
+		theme : 'a',
+		text : 'Creating Ticket',
+		textVisible : true
+	});
+	var xmlString = "<ticket>";
+	xmlString += "<assignee-id>" + $("#drpTicketAssignee").val() + "</assignee-id>";
+	xmlString += "<summary>" + $("#createTicketSummary").val() + "</summary>";
+	xmlString += "<description>" + $("#txtTicketDescription").val() + "</description>";
+	xmlString += "<priority>" + $("#drpTicketPriority").val() + "</priority>";
+	xmlString += "</ticket>";
+	$.ajax({
+		type : "POST",
+		url : "https://" + domain + ".unfuddle.com/api/v1/projects/" + globalProjectID + "/tickets.json",
+		headers : {
+			"Authorization" : "Basic " + btoa(username + ':' + password),
+			"Accept" : "application/json",
+			"Content-Type" : "application/xml"
+		},
+		contentType : "text/xml",
+		data : xmlString,
+		timeout : 5000,
+		success : function (data) {},
+		complete : function () {
+			$.mobile.loading('hide');
+		},
+		error : function (e) {
+			showDialogue("Error", "Problem Creating Ticket<br/>" + e.responseText);
+		}
+	});
+}

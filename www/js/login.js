@@ -79,7 +79,6 @@ function getAssigneeID()
 		contentType : "json",
 		success : function (data) {
 		assigneeID = data.id;
-		console.log(data);
 		},
 		complete : function () {
 			
