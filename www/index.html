@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="phonegap.js"></script>
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.js"></script>
+	<link rel="stylesheet" href="css/index.css" />
 	
 	<script type="text/javascript" src="js/index.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
@@ -17,16 +18,16 @@
 <body>
 	<div data-role="page" data-theme="b" id="loginPage">
 		<div data-role="header" >
-			<h1>Unfuddle App</h1>
+			<h1>&nbsp;</h1>
 		</div><!-- /header -->
 
 		<div data-role="content" >		
-		<img src="https://d3tmybsmv3a8mf.cloudfront.net/images/logo_sm_white.62fc4892dcbd0e904a451898ebf2f00e.png" width="100%"/>
+			<img src="https://d3tmybsmv3a8mf.cloudfront.net/images/logo_sm_white.62fc4892dcbd0e904a451898ebf2f00e.png" width="100%"/>
 			<form>
 				<ul data-role="listview" data-inset="true">
-					<li><label>Domain: <input id="txtDomain" type="text" data-clear-btn="true" ></label></li>
-					<li><label>Username: <input id="txtUsername" type="text" data-clear-btn="true"></label></li>
-					<li><label>Password: <input id="txtPassword" type="password" data-clear-btn="true"></label></li>
+					<li><label>Domain: <input id="txtDomain" type="text"></label></li>
+					<li><label>Username: <input id="txtUsername" type="text" ></label></li>
+					<li><label>Password: <input id="txtPassword" type="password"></label></li>
 					<li><a  onclick="login();">Login</a></li>
 				</ul>
 			</form>
@@ -35,7 +36,7 @@
 	
 	<div data-role="page" data-theme="b" id="projectsPage">
 		<div data-role="header">
-			<a onclick="logout();">Logout</a>
+			<a data-icon="arrow-l" onclick="logout();">Logout</a>
 			<h1>Projects</h1>
 		</div>
 		
@@ -46,9 +47,24 @@
 		</div>
 	</div><!-- /page -->
 	
-	<div data-role="page" data-theme="b" id="projectPage">
+	<div data-role="page" data-theme="b" id="projectPage" >
 		<div data-role="header">
+			<a  data-icon="arrow-l" data-rel="back">Back</a>
 			<h1 id="projectPageHeader"></h1>
+		</div>
+		
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true">
+				<li><a onclick="gotoTicketPage();">Tickets</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="ticketReportPage">
+		<div data-role="header">
+			<a data-icon="arrow-l" data-rel="back">Back</a>
+			<h1 id="ticketReportPageHeader"></h1>
+			<a data-icon="plus" onclick="gotoCreateTicket(-1);">New</a>
 		</div>
 		
 		<div data-role="content">
@@ -77,19 +93,49 @@
 		</div>
 	</div>
 	
-	<div data-role="page" data-theme="b" id="ticketPage" >
+	<div data-role="page" data-theme="b" id="createTicketPage">
 		<div data-role="header">
-		<a data-rel="back">Back</a>
-			<h1 id="ticketPageHeader"></h1>
+			<a data-icon="delete" data-rel="back">Cancel</a>
+			<h1 id="createTicketPageHeader">Create Ticket</h1>
+			<a data-icon="check" onclick="saveTicket();">Save</a>
 		</div>
 		
 		<div data-role="content">
 			<ul data-role="listview" data-inset="true">
-				<li id="ticketSummary" data-role="list-divider"></li>
-				<li id="ticketDescription" style="overflow: visible; white-space: normal;"></li>
+				<li><label>Summary: <input id="createTicketSummary" type="text"/></label></li>
+				<li><label>Description: <textarea id="txtTicketDescription"></textarea></label></li>
+				<li><label>Priority:</label><select id="drpTicketPriority" data-native-menu="false"><option value="5">Highest</option><option value="4">High</option><option value="3">Normal</option><option value="2">Low</option><option value="1">Lowest</option></select>
+				<li><label>Assigned To:</label><select id="drpTicketAssignee" data-native-menu="false"></select></li>
 			</ul>
 		</div>
 	</div>
-
+	
+	<div data-role="page" data-theme="b" id="ticketPage" >
+		<div data-role="header">
+		<a  data-icon="arrow-l" data-rel="back">Back</a>
+			<h1 id="ticketPageHeader"></h1>
+			<a data-icon="gear" onclick="editCurrentTicket();">Edit</a>
+		</div>
+		
+		<div data-role="content" class="contentTest">
+			<form>
+				<ul data-role="listview" data-inset="true">
+					<li id="ticketSummary" data-role="list-divider"></li>
+					<li id="ticketDescription" style="overflow: visible; white-space: normal;"></li>
+				</ul>
+			</form>
+		</div>
+		
+	</div>
+	
+	<div data-role="dialog" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+		<div data-role="header" data-theme="a">
+			<h1 id="popupHeader">Title</h1>
+		</div>
+		<div role="main" class="ui-content" style="text-align:center">
+			<h3 id="popupMessage" class="ui-title"></h3>
+			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
+		</div>
+	</div>
 </body>
 </html>

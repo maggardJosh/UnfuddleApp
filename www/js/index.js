@@ -11,3 +11,16 @@ function onDeviceReady() {
 	if(domain && username && password)
 		login();
 }
+
+function showDialogue(title, message)
+{
+	$("#popupHeader").html(title);
+	$("#popupMessage").html(message);
+	$.mobile.changePage("#popupDialog");
+}
+
+$(document).on('pagebeforeshow', "#ticketReportPage", function (toPage, options) { 
+
+		for (var i = 1; i <= 5; i++)
+			$("#ticketList" + i).listview("refresh");
+ } );

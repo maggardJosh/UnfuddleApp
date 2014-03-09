@@ -3,23 +3,21 @@ var domain = window.localStorage.getItem("unfuddleDomain");
 var username = window.localStorage.getItem("username");
 var password = window.localStorage.getItem("password");
 
-
-
 function logout() {
 	window.localStorage.setItem("unfuddleDomain", "");
 	window.localStorage.setItem("username", "");
 	window.localStorage.setItem("password", "");
-	
+
 	domain = "";
-	username= "";
+	username = "";
 	password = "";
-	
+
 	$("#txtDomain").val(domain);
 	$("#txtUsername").val(username);
 	$("#txtPassword").val(password);
-	
+
 	$.mobile.changePage("#loginPage");
-	
+
 }
 
 function login() {
@@ -45,7 +43,7 @@ function login() {
 		contentType : "json",
 		success : function (data) {
 			$("#projectList").empty().append("<li data-role='list-divider'>Projects</li>");
-			
+
 			data.forEach(function (project) {
 				$("#projectList").append("<li><a onclick='gotoProject(" + project.id + ", \"" + project.title + "\");'>" + project.title + "</a></li>");
 
@@ -56,9 +54,11 @@ function login() {
 		},
 		complete : function () {
 			$.mobile.loading('hide');
+			
 		},
 		error : function (e) {
-			console.log(e);
+			showDialogue("Error", "Problem logging in<br/>Code "+e.status);
 		}
 	});
 }
+
