@@ -68,6 +68,20 @@
 		</div>
 		
 		<div data-role="content">
+			<div style="width:50%; float:left; text-align:center">
+			
+				<select name="sliderMyTickets" id="sliderMyTickets" data-role="slider">
+					<option value="mine">Mine</option>
+					<option value="theirs">Other's</option>
+				</select>
+			</div>
+			<div style="width:49%; float:right; text-align:center">
+				<select name="sliderClosedTickets" id="sliderClosedTickets" data-role="slider">
+						<option value="closed">Closed</option>
+						<option selected="selected" value="open">Open</option>
+					</select>
+				</div>
+			<div style="clear:both;"></div>
 			<div data-role="collapsibleset">
 				<div data-role="collapsible">
 					<h2>Highest<span id="5TicketCount" class="ui-li-count">0</span></h2>

@@ -3,6 +3,8 @@ var domain = window.localStorage.getItem("unfuddleDomain");
 var username = window.localStorage.getItem("username");
 var password = window.localStorage.getItem("password");
 
+var assigneeID = -1;
+
 function logout() {
 	window.localStorage.setItem("unfuddleDomain", "");
 	window.localStorage.setItem("username", "");
@@ -48,12 +50,38 @@ function login() {
 				$("#projectList").append("<li><a onclick='gotoProject(" + project.id + ", \"" + project.title + "\");'>" + project.title + "</a></li>");
 
 			});
+			getAssigneeID();
 
 			$.mobile.changePage("#projectsPage");
 			$("#projectList").listview("refresh");
 		},
 		complete : function () {
 			$.mobile.loading('hide');
+			
+		},
+		error : function (e) {
+			showDialogue("Error", "Problem logging in<br/>Code "+e.status);
+		}
+	});
+}
+
+function getAssigneeID()
+{
+	$.ajax({
+		type : "GET",
+		url : "https://" + domain + ".unfuddle.com/api/v1/people/current.json",
+		headers : {
+			"Authorization" : "Basic " + btoa(username + ':' + password),
+			"Accept" : "application/json"
+		},
+		timeout : 5000,
+		async: false,
+		contentType : "json",
+		success : function (data) {
+		assigneeID = data.id;
+		console.log(data);
+		},
+		complete : function () {
 			
 		},
 		error : function (e) {

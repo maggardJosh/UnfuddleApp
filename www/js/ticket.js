@@ -1,6 +1,10 @@
 var isTicketNew = false;
 var currentTicket;
 
+
+$(document).on('slidestop', "#sliderMyTickets", function ()  { updateTicketList(); forceTicketListBuild();  });
+$(document).on('slidestop', "#sliderClosedTickets", function ()  { updateTicketList(); forceTicketListBuild(); });
+
 function loadTicket(ticketID) {
 	$.ajax({
 		type : "GET",
@@ -31,7 +35,7 @@ function updateCurrentTicket(ticketID) {
 	var match;
 	var result = currentTicket.description;
 	while (match = regExp.exec(result)) {
-		result = result.replace(match[0], "<img style='width:100%' src='" + match[1] + "'/>");
+		result = result.replace(match[0], "<div><img style='width:100%' src='" + match[1] + "'/></div>");
 	}
 
 	$("#ticketDescription").html(result);
@@ -41,7 +45,12 @@ function updateTicketList() {
 	var ticketArray = [];
 	var ticketCount = [0, 0, 0, 0, 0];
 	ticketDictionary.forEach(function (ticket) {
-		if (ticket.status != "closed") {
+	console.log(ticket);
+		if( ($("#sliderClosedTickets").val() == "closed" && ticket.status == "closed")
+		|| ($("#sliderClosedTickets").val() != "closed" && ticket.status != "closed") && 
+		( ($("#sliderMyTickets").val() == "mine" && ticket.assignee_id == assigneeID) 
+		|| ($("#sliderMyTickets").val() == "theirs" && ticket.assignee_id != assigneeID) ))
+		{
 			ticketArray.push(ticket);
 			ticketCount[ticket.priority - 1]++;
 		}
@@ -93,30 +102,27 @@ function gotoCreateTicket(ticket) {
 	
 	$("#createTicketPageHeader").html(isTicketNew ? "Create Ticket" : "Edit Ticket");
 
-	$.mobile.changePage("#createTicketPage");
 	if (isTicketNew)
 		resetCreateTicketPage();
 	else
 		loadCreateTicketPage(ticket);
 
+	$.mobile.changePage("#createTicketPage");
 }
 
 function loadCreateTicketPage(ticket) {
 	$("#createTicketSummary").val(ticket.summary);
 	$("#txtTicketDescription").val(ticket.description);
 	$("#drpTicketPriority").val(ticket.priority);
-	$("#drpTicketPriority").selectmenu('refresh');
 	loadPeopleDropdown();
 
 	$("#drpTicketAssignee").val(ticket.assignee_id);
-	$("#drpTicketAssignee").selectmenu('refresh');
 }
 
 function resetCreateTicketPage() {
 	$("#createTicketSummary").val("");
 	$("#txtTicketDescription").val("");
 	$("#drpTicketPriority").val("3");
-	$("#drpTicketPriority").selectmenu('refresh');
 	loadPeopleDropdown();
 
 }
@@ -143,7 +149,6 @@ function loadPeopleDropdown() {
 		async : false
 	});
 	$("#drpTicketAssignee").val(" ");
-	$("#drpTicketAssignee").selectmenu('refresh');
 }
 
 function saveTicket() {
@@ -164,8 +169,6 @@ function getTicketList(data) {
 		updateTicketList();
 
 		$.mobile.changePage("#ticketReportPage");
-		for (var i = 1; i <= 5; i++)
-			$("#ticketList" + i).listview("refresh");
 	}
 
 	function updateTicket() {
