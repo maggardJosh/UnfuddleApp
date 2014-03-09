@@ -2,7 +2,7 @@
 <html> 
 	<head> 
 	<title>Unfuddle App</title> 
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1" > 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.css" />
 	<script type="text/javascript" src="phonegap.js"></script>
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="js/project.js"></script>
 	<script type="text/javascript" src="js/ticket.js"></script>
 	
-</head> 
+	</head> 
 <body>
 	<div data-role="page" data-theme="b" id="loginPage">
 		<div data-role="header" >
@@ -28,8 +28,8 @@
 					<li><label>Domain: <input id="txtDomain" type="text"></label></li>
 					<li><label>Username: <input id="txtUsername" type="text" ></label></li>
 					<li><label>Password: <input id="txtPassword" type="password"></label></li>
-					<li><a  onclick="login();">Login</a></li>
 				</ul>
+				<a  onclick="login();" data-role="button">Login</a>
 			</form>
 		</div><!-- /content -->
 	</div><!-- /page -->

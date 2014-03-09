@@ -29,8 +29,6 @@ function forceTicketListBuild()
 	for (var i = 1; i <= 5; i++)
 		$("#ticketList" + i).listview("refresh");
 		
-//	$(".ui-li-count").animate({fontSize:'1.3em'},"fast");
-//	$(".ui-li-count").animate({fontSize:'1em'},"fast");
 
 }
 
