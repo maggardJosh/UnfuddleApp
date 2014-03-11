@@ -4,6 +4,7 @@ var username = window.localStorage.getItem("username");
 var password = window.localStorage.getItem("password");
 
 var assigneeID = -1;
+var people = [];
 
 function logout() {
 	window.localStorage.setItem("unfuddleDomain", "");
@@ -50,6 +51,7 @@ function login() {
 				$("#projectList").append("<li><a onclick='gotoProject(" + project.id + ", \"" + project.title + "\");'>" + project.title + "</a></li>");
 
 			});
+			getPeople();
 			getAssigneeID();
 
 			$.mobile.changePage("#projectsPage");
@@ -61,6 +63,29 @@ function login() {
 		},
 		error : function (e) {
 			showDialogue("Error", "Problem logging in<br/>Code "+e.status);
+		}
+	});
+}
+
+function getPeople()
+{
+$.ajax({
+		type : "GET",
+		url : "https://" + domain + ".unfuddle.com/api/v1/people.json",
+		headers : {
+			"Authorization" : "Basic " + btoa(username + ':' + password),
+			"Accept" : "application/json"
+		},
+		timeout : 5000,
+		async: false,
+		contentType : "json",
+		success : function (data) {
+		data.forEach(function (person) { people[person.id] = person; });
+		},
+		complete : function () {
+			
+		},
+		error : function (e) {
 		}
 	});
 }

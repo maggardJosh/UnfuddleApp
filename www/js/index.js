@@ -36,5 +36,6 @@ $(document).on('pagebeforeshow', "#createTicketPage", function () {
 
 	$("#drpTicketPriority").selectmenu('refresh');
 	$("#drpTicketAssignee").selectmenu('refresh');
+	$("#drpTicketStatus").selectmenu('refresh');
 });
 

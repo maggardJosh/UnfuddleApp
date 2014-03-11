@@ -3,6 +3,7 @@ var currentTicket;
 
 var myTickets = "mine";
 var closedTickets = "open";
+
 $(document).on('slidestop', "#sliderMyTickets", function () {
 	if (myTickets != $(this).val())
 		sliderChanged();
@@ -52,13 +53,15 @@ function updateCurrentTicket(ticketID) {
 
 	$("#ticketPageHeader").html("Ticket #" + currentTicket.number);
 	$("#ticketSummary").html(currentTicket.summary);
+	$("#ticketAssignee").html("<span style='float:left; font-weight:bold'>Assigned To:</span> <span style='float:right'>" + people[currentTicket.assignee_id].first_name + " " + people[currentTicket.assignee_id].last_name + "</span>");
+	$("#ticketStatus").html("<span style='float:left; font-weight:bold'>Status: </span> <span style='float:right'>" + currentTicket.status + "</span>");
 	var regExp = /\!\[\]\(([^)]+)\)/;
 	var match;
 	var result = currentTicket.description;
 	while (match = regExp.exec(result)) {
 		result = result.replace(match[0], "<div><img style='width:100%' src='" + match[1] + "'/></div>");
 	}
-
+	
 	$("#ticketDescription").html(result);
 }
 
@@ -134,6 +137,8 @@ function loadCreateTicketPage(ticket) {
 	$("#createTicketSummary").val(ticket.summary);
 	$("#txtTicketDescription").val(ticket.description);
 	$("#drpTicketPriority").val(ticket.priority);
+	console.log(ticket);
+	$("#drpTicketStatus").val(ticket.status.toLowerCase());
 	loadPeopleDropdown();
 
 	$("#drpTicketAssignee").val(ticket.assignee_id);
@@ -143,6 +148,7 @@ function resetCreateTicketPage() {
 	$("#createTicketSummary").val("");
 	$("#txtTicketDescription").val("");
 	$("#drpTicketPriority").val("3");
+	$("#drpTicketStatus").val("new");
 	loadPeopleDropdown();
 
 }
@@ -202,6 +208,7 @@ function updateTicket() {
 	xmlString += "<summary>" + $("#createTicketSummary").val() + "</summary>";
 	xmlString += "<description>" + $("#txtTicketDescription").val() + "</description>";
 	xmlString += "<priority>" + $("#drpTicketPriority").val() + "</priority>";
+	xmlString += "<status>" + $("#drpTicketStatus").val() + "</status>";
 	xmlString += "</ticket>";
 
 	$.ajax({
@@ -242,6 +249,7 @@ function createTicket() {
 	xmlString += "<summary>" + $("#createTicketSummary").val() + "</summary>";
 	xmlString += "<description>" + $("#txtTicketDescription").val() + "</description>";
 	xmlString += "<priority>" + $("#drpTicketPriority").val() + "</priority>";
+	xmlString += "<status>" + $("#drpTicketStatus").val() + "</status>";
 	xmlString += "</ticket>";
 	$.ajax({
 		type : "POST",

@@ -3,10 +3,10 @@
 	<head> 
 	<title>Unfuddle App</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1" > 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.css" />
+	<link rel="stylesheet" href="include/jquery.mobile-1.4.2.css" />
 	<script type="text/javascript" src="phonegap.js"></script>
-	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.js"></script>
+	<script src="include/jquery-1.7.1.min.js"></script>
+	<script src="include/jquery.mobile-1.4.2.js"></script>
 	<link rel="stylesheet" href="css/index.css" />
 	
 	<script type="text/javascript" src="js/index.js"></script>
@@ -119,8 +119,9 @@
 			<ul data-role="listview" data-inset="true">
 				<li><label>Summary: <input id="createTicketSummary" type="text"/></label></li>
 				<li><label>Description: <textarea id="txtTicketDescription"></textarea></label></li>
-				<li><label>Priority:</label><select id="drpTicketPriority" data-native-menu="false"><option value="5">Highest</option><option value="4">High</option><option value="3">Normal</option><option value="2">Low</option><option value="1">Lowest</option></select>
+				<li><label>Priority:</label><select id="drpTicketPriority" data-native-menu="false"><option value="5">Highest</option><option value="4">High</option><option value="3">Normal</option><option value="2">Low</option><option value="1">Lowest</option></select></li>
 				<li><label>Assigned To:</label><select id="drpTicketAssignee" data-native-menu="false"></select></li>
+				<li><label>Status:</label><select id="drpTicketStatus" data-native-menu="false"><option value="new">New</option><option value="unaccepted">Unaccepted</option><option value="reassigned">Reassigned</option><option value="reopened">Reopened</option><option value="accepted">Accepted</option><option value="resolved">Resolved</option><option value="closed">Closed</option></select></select></li>
 			</ul>
 		</div>
 	</div>
@@ -137,6 +138,10 @@
 				<ul data-role="listview" data-inset="true">
 					<li id="ticketSummary" data-role="list-divider"></li>
 					<li id="ticketDescription" style="overflow: visible; white-space: normal;"></li>
+				</ul>
+				<ul data-role="listview" data-inset="true">
+					<li id="ticketAssignee"></li>
+					<li id="ticketStatus"></li>
 				</ul>
 			</form>
 		</div>
