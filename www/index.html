@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="js/login.js"></script>
 	<script type="text/javascript" src="js/project.js"></script>
 	<script type="text/javascript" src="js/ticket.js"></script>
+	<script type="text/javascript" src="js/attachment.js"></script>
 	
 	</head> 
 <body>
@@ -143,9 +144,37 @@
 					<li id="ticketAssignee"></li>
 					<li id="ticketStatus"></li>
 				</ul>
+				<ul id="ticketAttachmentsList" data-role="listview" data-inset="true">
+					
+				</ul>
 			</form>
 		</div>
 		
+	</div>
+	
+	
+	<div data-role="page" data-theme="b" id="attachmentListPage" >
+		<div data-role="header">
+			<a data-icon="arrow-l" data-rel="back">Back</a>
+			<h1>Attachments</h1>
+		</div>
+		
+		<div data-role="content">
+			<ul id="lviewAttachments" data-role="listview" data-inset="true">
+			</ul>
+			<div id="attachmentDiv"></div>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="attachmentPage" >
+		<div data-role="header">
+			<a data-icon="arrow-l" data-rel="back">Back</a>
+			<h1>Attachments</h1>
+		</div>
+		
+		<div data-role="content">
+			
+		</div>
 	</div>
 	
 	<div data-role="dialog" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">

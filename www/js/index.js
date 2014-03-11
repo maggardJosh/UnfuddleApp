@@ -28,9 +28,11 @@ function forceTicketListBuild()
 {
 	for (var i = 1; i <= 5; i++)
 		$("#ticketList" + i).listview("refresh");
-		
-
 }
+
+$(document).on('pagebeforeshow', "#ticketPage", function () {
+	$("#ticketAttachmentsList").listview("refresh");
+});
 
 $(document).on('pagebeforeshow', "#createTicketPage", function () {
 

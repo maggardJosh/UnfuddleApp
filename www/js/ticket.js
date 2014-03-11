@@ -38,7 +38,6 @@ function loadTicket(ticketID) {
 		timeout : 5000,
 		contentType : "json",
 		success : function (data) {
-			console.log(data);
 			ticketDictionary[ticketID] = data;
 		},
 		dataType : "json",
@@ -62,7 +61,43 @@ function updateCurrentTicket(ticketID) {
 		result = result.replace(match[0], "<div><img style='width:100%' src='" + match[1] + "'/></div>");
 	}
 	
+	getTicketAttachments();
+	
 	$("#ticketDescription").html(result);
+}
+
+function getTicketAttachments()
+{
+	$.ajax({
+		type : "GET",
+		url : "https://" + domain + ".unfuddle.com/api/v1/projects/" + globalProjectID + "/tickets/" + currentTicket.id + "/attachments.json",
+		headers : {
+			"Authorization" : "Basic " + btoa(username + ':' + password),
+			"Accept" : "application/json"
+		},
+		timeout : 5000,
+		contentType : "json",
+		success : function (data) {
+			
+				attachmentsArray = data;
+				var attachmentHtml = "<li>";
+				if (data.length > 0)
+					attachmentHtml += "<a onclick='gotoAttachments();'>"
+				attachmentHtml += data.length + " Attachment";
+				if (data.length > 1 || data.length == 0)
+					attachmentHtml += "s";
+				if(data.length > 0)
+					attachmentHtml += "</a>";
+				attachmentHtml += "</li>";
+				
+				$("#ticketAttachmentsList").html( attachmentHtml);
+				
+		},
+		dataType : "json",
+		complete : function () {},
+		error : function (e) {},
+		async : false
+	});
 }
 
 function updateTicketList() {
